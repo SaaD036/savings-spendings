@@ -1,0 +1,24 @@
+{
+  "name": "dailysavings",
+  "version": "1.0.0",
+  "description": "keey track of my all daily savings",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SaaD"
+  ],
+  "author": "SaaD",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/helper-compilation-targets": "^7.15.4",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "firebase": "^9.1.0",
+    "firebase-admin": "^9.12.0",
+    "fireorm": "^0.22.1"
+  },
+  "devDependencies": {}
+}
