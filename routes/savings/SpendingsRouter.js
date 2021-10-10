@@ -5,13 +5,14 @@ const spendingsController = require(`${__dirname}/../../controllers/spendings/Sp
 const totalSpendingController = require(`${__dirname}/../../controllers/spendings/TotalSpendingsController`);
 const savingsController = require(`${__dirname}/../../controllers/savings/SavingsController`);
 const totalSavingController = require(`${__dirname}/../../controllers/savings/TotalSavingController`);
+const adminMiddleware = require(`${__dirname}/../../middlewares/auth/Admin`);
 
 //spending routes
 router.route('/spendings')
     .get(spendingsController.getSpendings)
-    .post(spendingsController.storeSpendings)
-    .put(spendingsController.updateSpendings)
-    .delete(spendingsController.deleteSpendings)
+    .post(adminMiddleware, spendingsController.storeSpendings)
+    .put(adminMiddleware, spendingsController.updateSpendings)
+    .delete(adminMiddleware, spendingsController.deleteSpendings)
 
 router.route('/spendings/download')
     .get(spendingsController.downloadAll)
@@ -19,9 +20,9 @@ router.route('/spendings/download')
 //saving routes
 router.route('/savings')
     .get(savingsController.getSavings)
-    .post(savingsController.storeSavings)
-    .put(savingsController.updateSavings)
-    .delete(savingsController.deleteSavings)
+    .post(adminMiddleware, savingsController.storeSavings)
+    .put(adminMiddleware, savingsController.updateSavings)
+    .delete(adminMiddleware, savingsController.deleteSavings)
 
 router.route('/savings/download')
     .get(savingsController.downloadAll)

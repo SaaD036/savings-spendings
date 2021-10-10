@@ -1,25 +1,29 @@
 {
-  "name": "dailysavings",
-  "version": "1.0.0",
-  "description": "keey track of my all daily savings",
-  "main": "index.js",
-  "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "SaaD"
-  ],
-  "author": "SaaD",
-  "license": "ISC",
-  "dependencies": {
-    "@babel/helper-compilation-targets": "^7.15.4",
-    "body-parser": "^1.19.0",
-    "exceljs": "^4.3.0",
-    "express": "^4.17.1",
-    "firebase": "^9.1.0",
-    "firebase-admin": "^9.12.0",
-    "fireorm": "^0.22.1"
-  },
-  "devDependencies": {}
+    "name": "dailysavings",
+    "version": "1.0.0",
+    "description": "keey track of my all daily savings",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "SaaD"
+    ],
+    "author": "SaaD",
+    "license": "ISC",
+    "dependencies": {
+        "@babel/helper-compilation-targets": "^7.15.4",
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.19.0",
+        "dotenv": "^10.0.0",
+        "exceljs": "^4.3.0",
+        "express": "^4.17.1",
+        "firebase": "^9.1.0",
+        "firebase-admin": "^9.12.0",
+        "fireorm": "^0.22.1",
+        "jsonwebtoken": "^8.5.1",
+        "nodemon": "^2.0.13"
+    },
+    "devDependencies": {}
 }
