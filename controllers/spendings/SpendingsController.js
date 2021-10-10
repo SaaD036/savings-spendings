@@ -1,3 +1,5 @@
+const ExcelJS = require('exceljs');
+
 const DateLibrary = require('../../lib/DateLibrary');
 const FormatterHelper = require(`${__dirname}/../../helper/FormatterHelper`);
 const SpendingsHelper = require(`${__dirname}/../../helper/SpendingsHelper`);
@@ -10,13 +12,13 @@ const formatterHelper = new FormatterHelper();
 const spendingsHelper = new SpendingsHelper();
 const totalSavingsHelper = new TotalSavingsHelper();
 
-const getSpendings = async (req, res) => {
+const getSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings');
     const snapshot = await databaseRef.once('value');
     let data = formatterHelper.getSavingsData(snapshot.val());
 
-    if(req.query.name) data = spendingsHelper.searchSpendingByName(data, req.query.name);
-    if(req.query.amount) data = spendingsHelper.searchSpendingByAmount(data, req.query.amount);
+    if (req.query.name) data = spendingsHelper.searchSpendingByName(data, req.query.name);
+    if (req.query.amount) data = spendingsHelper.searchSpendingByAmount(data, req.query.amount);
 
 
     res.send({
@@ -24,7 +26,7 @@ const getSpendings = async (req, res) => {
     });
 }
 
-const storeSpendings = async (req, res) => {
+const storeSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings');
     let date = req.body.date ? req.body.date : dateLibrary.getDate();
     let time = req.body.time ? req.body.time : dateLibrary.getTime();
@@ -48,7 +50,7 @@ const storeSpendings = async (req, res) => {
     });
 }
 
-const updateSpendings = async (req, res) => {
+const updateSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings').child(req.body.date).child(req.body.row);
     let snapshot = await databaseRef.once('value');
     let data = snapshot.val();
@@ -70,7 +72,7 @@ const updateSpendings = async (req, res) => {
         'data': data
     });
 }
-const deleteSpendings = async (req, res) => {
+const deleteSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings').child(req.body.date).child(req.body.row);
 
     await databaseRef.update({
@@ -84,9 +86,24 @@ const deleteSpendings = async (req, res) => {
     });
 }
 
+const downloadAll = async(req, res) => {
+    const databaseRef = database.ref('spendings');
+    const snapshot = await databaseRef.once('value');
+    let data = formatterHelper.getSavingsData(snapshot.val());
+    let excelRows = formatterHelper.formatExcelData(data);
+
+    data = totalSavingsHelper.saveExcel(excelRows, 'spendings');
+
+    res.json({
+        'status': 200,
+        'message': 'file saved'
+    });
+}
+
 module.exports = {
     getSpendings,
     storeSpendings,
     updateSpendings,
-    deleteSpendings
+    deleteSpendings,
+    downloadAll
 }

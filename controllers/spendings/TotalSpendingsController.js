@@ -10,12 +10,12 @@ const formatterHelper = new FormatterHelper();
 const spendingsHelper = new SpendingsHelper();
 const totalSavingsHelper = new TotalSavingsHelper();
 
-const getTotalSpendings = async (req, res)=> {
-    const totalSpendingsTable = database.ref('totalSpendings').child(req.query.date);
+const getTotalSpendingsByID = async(req, res) => {
+    const totalSpendingsTable = database.ref('totalSpendings').child(req.params.id);
     const totalSpendingsSnapshot = await totalSpendingsTable.once('value');
     const totalSpendingsData = totalSpendingsSnapshot.val();
 
-    const spendingsTable = database.ref('spendings').child(req.query.date);
+    const spendingsTable = database.ref('spendings').child(req.params.id);
     const spendingsSnapshot = await spendingsTable.once('value');
     const spendingsData = spendingsSnapshot.val();
 
@@ -25,6 +25,17 @@ const getTotalSpendings = async (req, res)=> {
     })
 }
 
+const getTotalSpendings = async(req, res) => {
+    const totalSavingsTable = database.ref('totalSpendings');
+    const totalSavingSnapshot = await totalSavingsTable.once('value');
+    const totalSavingsData = totalSavingSnapshot.val();
+
+    res.send({
+        'data': totalSavingsHelper.getTotalSavingsSpendings(totalSavingsData)
+    });
+}
+
 module.exports = {
-    getTotalSpendings
+    getTotalSpendings,
+    getTotalSpendingsByID
 }

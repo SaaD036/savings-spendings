@@ -1,10 +1,10 @@
 const database = require(`${__dirname}/../database`);
 
 module.exports = class FormatterHelper {
-    getSavingsData(value){
+    getSavingsData(value) {
         let data = [];
-        
-        if(value==null) return data;
+
+        if (value == null) return data;
 
         Object.keys(value).forEach((key) => {
             data.push({
@@ -17,8 +17,7 @@ module.exports = class FormatterHelper {
         return data;
     }
 
-    getLength(snapshot){
-        // console.log(data);
+    getLength(snapshot) {
         let dataLength = 1;
 
         snapshot.forEach(doc => {
@@ -27,5 +26,22 @@ module.exports = class FormatterHelper {
 
         return dataLength;
     }
-} 
 
+    formatExcelData(value) {
+        let excelRows = [];
+
+        value.forEach((key) => {
+            let spendings = key.spendings;
+
+            spendings.forEach((spending) => {
+                excelRows.push({
+                    'date': key.date,
+                    'name': spending.name,
+                    'amount': spending.amount
+                });
+            })
+        })
+
+        return excelRows;
+    }
+}
