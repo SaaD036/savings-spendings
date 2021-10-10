@@ -44,4 +44,19 @@ module.exports = class FormatterHelper {
 
         return excelRows;
     }
+
+    getUserData(value){
+        let data = [];
+
+        Object.keys(value).forEach((key) => {
+            data.push({
+                key: key,
+                email: value[key].email,
+                name: value[key].name,
+                isAdmin: value[key].isAdmin
+            });
+        });
+
+        return data;
+    }
 }
