@@ -71,6 +71,20 @@ const updateSavings = async(req, res) => {
     });
 }
 
+const deleteSavings = async(req, res) => {
+    const databaseRef = database.ref('savings').child(req.body.date).child(req.body.row);
+
+    await databaseRef.update({
+        'amount': 0
+    });
+    await totalSavingsHelper.setTotalSavings(req.body.date, 'totalSavings');
+
+
+    res.send({
+        'message': 'spendings deleted successfully'
+    });
+}
+
 const downloadAll = async(req, res) => {
     const databaseRef = database.ref('savings');
     const snapshot = await databaseRef.once('value');
@@ -89,5 +103,6 @@ module.exports = {
     getSavings,
     storeSavings,
     updateSavings,
+    deleteSavings,
     downloadAll
 }

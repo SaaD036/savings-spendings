@@ -21,6 +21,7 @@ router.route('/savings')
     .get(savingsController.getSavings)
     .post(savingsController.storeSavings)
     .put(savingsController.updateSavings)
+    .delete(savingsController.deleteSavings)
 
 router.route('/savings/download')
     .get(savingsController.downloadAll)
