@@ -7,4 +7,10 @@ const adminController = require(`${__dirname}/../../controllers/admin/AdminContr
 router.route('/')
     .get(adminMiddleware, adminController.getUser)
 
+router.route('/:key')
+    .put(adminMiddleware, adminController.updateUser)
+
+router.route('/change-status/:key')
+    .post(adminMiddleware, adminController.changeUserStatus)
+
 module.exports = router;
