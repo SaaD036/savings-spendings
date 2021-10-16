@@ -7,4 +7,7 @@ router.route('/')
     .get(userController.getUser)
     .put(userController.updateUser)
 
+router.route('/comment')
+    .post(userController.createComment)
+
 module.exports = router;
