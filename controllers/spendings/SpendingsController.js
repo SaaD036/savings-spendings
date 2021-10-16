@@ -21,7 +21,7 @@ const getSpendings = async(req, res) => {
     if (req.query.amount) data = spendingsHelper.searchSpendingByAmount(data, req.query.amount);
 
 
-    res.send({
+    return res.status(200).json({
         'data': data
     });
 }
@@ -43,10 +43,10 @@ const storeSpendings = async(req, res) => {
 
     const total = await totalSavingsHelper.setTotalSavings(date, 'totalSpendings');
 
-    res.send({
+    return res.status(200).json({
         'message': 'data inserted successfully',
         'data': req.body,
-        'tota': total,
+        'total': total,
     });
 }
 
@@ -68,7 +68,7 @@ const updateSpendings = async(req, res) => {
     snapshot = await databaseRef.once('value');
     data = snapshot.val();
 
-    res.send({
+    return res.status(200).json({
         'data': data
     });
 }
@@ -81,7 +81,7 @@ const deleteSpendings = async(req, res) => {
     await totalSavingsHelper.setTotalSavings(req.body.date, 'totalSpendings');
 
 
-    res.send({
+    return res.status(200).json({
         'message': 'spendings deleted successfully'
     });
 }
@@ -94,8 +94,7 @@ const downloadAll = async(req, res) => {
 
     data = totalSavingsHelper.saveExcel(excelRows, 'spendings');
 
-    res.json({
-        'status': 200,
+    return res.status(200).json({
         'message': 'file saved'
     });
 }

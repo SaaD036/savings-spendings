@@ -19,7 +19,7 @@ const getTotalSavingsByID = async(req, res) => {
     const savingSnapshot = await savingsTable.once('value');
     const savingsData = savingSnapshot.val();
 
-    res.send({
+    return res.status(200).json({
         'totalSaving': totalSavingsData,
         'savings': savingsData
     })
@@ -30,7 +30,7 @@ const getTotalSavings = async(req, res) => {
     const totalSavingSnapshot = await totalSavingsTable.once('value');
     const totalSavingsData = totalSavingSnapshot.val();
 
-    res.send({
+    return res.status(200).json({
         'data': totalSavingsHelper.getTotalSavingsSpendings(totalSavingsData)
     });
 }

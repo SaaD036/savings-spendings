@@ -2,10 +2,10 @@ const express = require(`express`);
 const bodyParser = require(`body-parser`);
 const dotenv = require(`dotenv`);
 
-const config = require(`${__dirname}/config`);
 const spendingRouter = require(`${__dirname}/routes/savings/SpendingsRouter`);
 const authRouter = require(`${__dirname}/routes/auth/AuthRouter`);
 const authMiddleware = require(`${__dirname}/middlewares/auth/Auth`);
+const adminRouter = require(`${__dirname}/routes/admin/AdminRouter`);
 
 const app = express();
 const PORT = 3000;
@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 app.use('/api', authMiddleware, spendingRouter);
 app.use('/auth', authRouter);
-
+app.use('/admin', authMiddleware, adminRouter);
 
 app.listen(PORT, () => {
     console.log(`Listening from port ${ PORT }`);

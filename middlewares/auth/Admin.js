@@ -8,16 +8,17 @@ const auth = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         if (!decoded.isAdmin) {
-            res.status(401).json({
+            return res.status(401).json({
                 message: 'you are unauthorized'
             });
-            next('you are unauthorized');
         }
 
         req.token = decoded;
         next();
     } catch (err) {
-        next('you are unauthorized');
+        return res.status(401).json({
+            message: 'you are unauthorized'
+        });
     }
 }
 
