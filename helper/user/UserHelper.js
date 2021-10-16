@@ -16,6 +16,23 @@ module.exports = class UserHelper {
 
         return data;
     }
+    formatCommentForAdmin(comments) {
+        let data = [];
+
+        comments.forEach((comment) => {
+            if (comment != null) {
+                if (!comment.isDeleted) {
+                    data.push({
+                        id: comment.id,
+                        comment: comment.comment,
+                        reply: comment.reply
+                    });
+                }
+            }
+        })
+
+        return data;
+    }
     getCommentToSave(req, dataLength) {
         return {
             id: dataLength,

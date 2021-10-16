@@ -1,16 +1,19 @@
 const database = require(`${__dirname}/../database`);
+const UserHelper = require(`${__dirname}/user/UserHelper`);
 
+const userHelper = new UserHelper();
 module.exports = class FormatterHelper {
-    getSavingsData(value) {
+    getSavingsData(value, comments, token) {
         let data = [];
 
         if (value == null) return data;
 
         Object.keys(value).forEach((key) => {
             data.push({
-                'date': key,
-                'spendings': value[key],
-                'length': value[key].length
+                date: key,
+                spendings: value[key],
+                length: value[key].length,
+                comments: token.isAdmin ? userHelper.formatCommentForAdmin(comments) : userHelper.formatComment(comments, token.email)
             });
         });
 
@@ -45,7 +48,7 @@ module.exports = class FormatterHelper {
         return excelRows;
     }
 
-    getUserData(value){
+    getUserData(value) {
         let data = [];
 
         Object.keys(value).forEach((key) => {

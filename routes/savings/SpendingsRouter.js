@@ -1,10 +1,14 @@
 const express = require(`express`);
 const router = express.Router();
 
+//controllers
 const spendingsController = require(`${__dirname}/../../controllers/spendings/SpendingsController`);
 const totalSpendingController = require(`${__dirname}/../../controllers/spendings/TotalSpendingsController`);
 const savingsController = require(`${__dirname}/../../controllers/savings/SavingsController`);
 const totalSavingController = require(`${__dirname}/../../controllers/savings/TotalSavingController`);
+const userController = require(`${__dirname}/../../controllers/user/UserController`);
+
+//moddleware
 const adminMiddleware = require(`${__dirname}/../../middlewares/auth/Admin`);
 
 //spending routes

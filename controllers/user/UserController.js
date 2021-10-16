@@ -68,12 +68,16 @@ const createComment = async(req, res) => {
     await databaseRef.child(req.body.date).child(dataLength.toString()).set(data);
 
     snapshot = await databaseRef.child(req.body.date).once('value');
-    const value = snapshot.val();
 
     return res.status(200).json({
         message: 'comment stored',
-        data: userHelper.formatComment(value, req.token.email)
+        data: userHelper.formatComment(snapshot.val(), req.token.email)
     });
+}
+
+const getComments = async(req, res) => {
+    const databaseRef = database.ref('comments');
+    let snapshot = await databaseRef.child(req.body.date).once('value');
 }
 
 module.exports = {
