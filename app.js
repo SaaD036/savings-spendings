@@ -19,7 +19,6 @@ app.use('/api', authMiddleware, spendingRouter);
 app.use('/auth', authRouter);
 app.use('/admin', authMiddleware, adminRouter);
 
-
 app.listen(PORT, () => {
     console.log(`Listening from port ${ PORT }`);
 })
