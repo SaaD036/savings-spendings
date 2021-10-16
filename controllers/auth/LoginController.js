@@ -12,7 +12,7 @@ const login = async(req, res) => {
     let user = snapshot.val();
 
     if (user == null) {
-        res.status(401).json({
+        return res.status(401).json({
             message: 'Unauthenticated'
         });
     }
@@ -28,13 +28,13 @@ const login = async(req, res) => {
             expiresIn: '3h'
         });
 
-        res.status(200).json({
+        return res.status(200).json({
             message: 'login successful',
             token: token
         });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
         message: 'Unauthenticated'
     });
 }

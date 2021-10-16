@@ -13,7 +13,7 @@ const signup = async(req, res) => {
     let user = snapshot.val();
 
     if (user != null) {
-        res.status(401).json({
+        return res.status(401).json({
             message: 'user exists'
         });
     }
@@ -25,7 +25,7 @@ const signup = async(req, res) => {
         password: hashedPassword
     });
 
-    res.status(200).json({
+    return res.status(200).json({
         message: 'user created!'
     });
 }
