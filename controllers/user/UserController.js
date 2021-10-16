@@ -2,8 +2,10 @@ const bcrypt = require('bcrypt');
 
 const database = require(`${__dirname}/../../database`);
 const FormatterHelper = require(`${__dirname}/../../helper/FormatterHelper`);
+const UserHelper = require(`${__dirname}/../../helper/user/UserHelper`);
 
 const formatterHelper = new FormatterHelper();
+const userHelper = new UserHelper();
 
 const getUser = async(req, res) => {
     const email = req.token.email;
@@ -51,7 +53,31 @@ const updateUser = async(req, res) => {
     });
 }
 
+const createComment = async(req, res) => {
+    const databaseRef = database.ref('comments');
+    let snapshot = await databaseRef.child(req.body.date).once('value');
+    let dataLength = formatterHelper.getLength(snapshot);
+
+    if (req.token.isAdmin) {
+        return res.status(403).json({
+            message: 'Admin can only reply to a comment'
+        });
+    }
+
+    let data = userHelper.getCommentToSave(req, dataLength);
+    await databaseRef.child(req.body.date).child(dataLength.toString()).set(data);
+
+    snapshot = await databaseRef.child(req.body.date).once('value');
+    const value = snapshot.val();
+
+    return res.status(200).json({
+        message: 'comment stored',
+        data: userHelper.formatComment(value, req.token.email)
+    });
+}
+
 module.exports = {
     getUser,
-    updateUser
+    updateUser,
+    createComment
 }
