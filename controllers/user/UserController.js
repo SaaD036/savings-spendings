@@ -75,13 +75,50 @@ const createComment = async(req, res) => {
     });
 }
 
-const getComments = async(req, res) => {
-    const databaseRef = database.ref('comments');
-    let snapshot = await databaseRef.child(req.body.date).once('value');
+const requestChangeStatus = async(req, res) => {
+    const databaseRef = database.ref('requestChangeStatus');
+    let email = req.token.email;
+    let key = email.split('@');
+
+    if(req.token.isAdmin){
+        return res.status(403).json({
+           message: 'you are admin'
+        });
+    }
+
+    let snapshot = await databaseRef.child(key[0]).once('value');
+
+    if(snapshot.val()){
+        return res.status(403).json({
+            message: 'You have already applied'
+        });
+    }
+
+    await databaseRef.child(key[0]).set({
+        email: req.token.email
+    })
+
+    return res.status(200).json({
+       message: 'request sent to admin'
+    });
+}
+
+const deleteChangeStatus = async(req, res) => {
+    const databaseRef = database.ref('requestChangeStatus');
+    let email = req.token.email;
+    let key = email.split('@');
+
+    await databaseRef.child(key[0]).remove();
+
+    return res.status(200).json({
+       message: 'request removed'
+    });
 }
 
 module.exports = {
     getUser,
     updateUser,
-    createComment
+    createComment,
+    requestChangeStatus,
+    deleteChangeStatus
 }
