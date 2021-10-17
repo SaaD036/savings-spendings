@@ -15,14 +15,25 @@ const totalSavingsHelper = new TotalSavingsHelper();
 const getSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings');
     const snapshot = await databaseRef.once('value');
-    let data = formatterHelper.getSavingsData(snapshot.val());
+    const commentSnapshot = await database.ref('comments').once('value');
+    let data = formatterHelper.getSavingsData(snapshot.val(), commentSnapshot.val(), req.token);
 
     if (req.query.name) data = spendingsHelper.searchSpendingByName(data, req.query.name);
     if (req.query.amount) data = spendingsHelper.searchSpendingByAmount(data, req.query.amount);
 
-
     return res.status(200).json({
         'data': data
+    });
+}
+
+const getSpendingByDate = async(req, res) => {
+    const databaseRef = database.ref('spendings').child(req.params.date);
+    const snapshot = await databaseRef.once('value');
+    const commentSnapshot = await database.ref('comments').child(req.params.date).once('value');
+
+    return res.status(200).json({
+        spending: formatterHelper.getSingleSavingSpending(snapshot.val()),
+        comment: formatterHelper.getSingleSavingSpending(commentSnapshot.val()),
     });
 }
 
@@ -104,5 +115,6 @@ module.exports = {
     storeSpendings,
     updateSpendings,
     deleteSpendings,
-    downloadAll
+    downloadAll,
+    getSpendingByDate
 }

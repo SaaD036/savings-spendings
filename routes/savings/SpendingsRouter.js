@@ -1,10 +1,14 @@
 const express = require(`express`);
 const router = express.Router();
 
+//controllers
 const spendingsController = require(`${__dirname}/../../controllers/spendings/SpendingsController`);
 const totalSpendingController = require(`${__dirname}/../../controllers/spendings/TotalSpendingsController`);
 const savingsController = require(`${__dirname}/../../controllers/savings/SavingsController`);
 const totalSavingController = require(`${__dirname}/../../controllers/savings/TotalSavingController`);
+const userController = require(`${__dirname}/../../controllers/user/UserController`);
+
+//moddleware
 const adminMiddleware = require(`${__dirname}/../../middlewares/auth/Admin`);
 
 //spending routes
@@ -13,6 +17,9 @@ router.route('/spendings')
     .post(adminMiddleware, spendingsController.storeSpendings)
     .put(adminMiddleware, spendingsController.updateSpendings)
     .delete(adminMiddleware, spendingsController.deleteSpendings)
+
+router.route('/spendings/:date')
+    .get(spendingsController.getSpendingByDate)
 
 router.route('/spendings/download')
     .get(spendingsController.downloadAll)
@@ -23,6 +30,9 @@ router.route('/savings')
     .post(adminMiddleware, savingsController.storeSavings)
     .put(adminMiddleware, savingsController.updateSavings)
     .delete(adminMiddleware, savingsController.deleteSavings)
+
+router.route('/savings/:date')
+    .get(savingsController.getSavingByDate)
 
 router.route('/savings/download')
     .get(savingsController.downloadAll)
