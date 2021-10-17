@@ -18,6 +18,9 @@ router.route('/spendings')
     .put(adminMiddleware, spendingsController.updateSpendings)
     .delete(adminMiddleware, spendingsController.deleteSpendings)
 
+router.route('/spendings/:date')
+    .get(spendingsController.getSpendingByDate)
+
 router.route('/spendings/download')
     .get(spendingsController.downloadAll)
 
@@ -27,6 +30,9 @@ router.route('/savings')
     .post(adminMiddleware, savingsController.storeSavings)
     .put(adminMiddleware, savingsController.updateSavings)
     .delete(adminMiddleware, savingsController.deleteSavings)
+
+router.route('/savings/:date')
+    .get(savingsController.getSavingByDate)
 
 router.route('/savings/download')
     .get(savingsController.downloadAll)

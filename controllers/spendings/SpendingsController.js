@@ -26,6 +26,17 @@ const getSpendings = async(req, res) => {
     });
 }
 
+const getSpendingByDate = async(req, res) => {
+    const databaseRef = database.ref('spendings').child(req.params.date);
+    const snapshot = await databaseRef.once('value');
+    const commentSnapshot = await database.ref('comments').child(req.params.date).once('value');
+
+    return res.status(200).json({
+        spending: formatterHelper.getSingleSavingSpending(snapshot.val()),
+        comment: formatterHelper.getSingleSavingSpending(commentSnapshot.val()),
+    });
+}
+
 const storeSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings');
     let date = req.body.date ? req.body.date : dateLibrary.getDate();
@@ -104,5 +115,6 @@ module.exports = {
     storeSpendings,
     updateSpendings,
     deleteSpendings,
-    downloadAll
+    downloadAll,
+    getSpendingByDate
 }

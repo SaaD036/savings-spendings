@@ -99,10 +99,22 @@ const downloadAll = async(req, res) => {
     });
 }
 
+const getSavingByDate = async(req, res) => {
+    const databaseRef = database.ref('savings').child(req.params.date);
+    const snapshot = await databaseRef.once('value');
+    const commentSnapshot = await database.ref('comments').child(req.params.date).once('value');
+
+    return res.status(200).json({
+        spending: formatterHelper.getSingleSavingSpending(snapshot.val()),
+        comment: formatterHelper.getSingleSavingSpending(commentSnapshot.val()),
+    });
+}
+
 module.exports = {
     getSavings,
     storeSavings,
     updateSavings,
     deleteSavings,
-    downloadAll
+    downloadAll,
+    getSavingByDate
 }

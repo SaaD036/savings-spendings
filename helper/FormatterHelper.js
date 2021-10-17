@@ -11,7 +11,7 @@ module.exports = class FormatterHelper {
         Object.keys(value).forEach((key) => {
             data.push({
                 date: key,
-                spendings: value[key],
+                spendings: this.getSingleSavingSpending(value[key]),
                 length: value[key].length,
                 comments: token.isAdmin ? userHelper.formatCommentForAdmin(comments[key]) : userHelper.formatComment(comments[key], token.email)
             });
@@ -59,6 +59,18 @@ module.exports = class FormatterHelper {
                 isAdmin: value[key].isAdmin
             });
         });
+
+        return data;
+    }
+    getSingleSavingSpending(value) {
+        let data = [];
+        if (!value) return data;
+
+        value.forEach((eachValue) => {
+            if (eachValue != null) {
+                data.push(eachValue);
+            }
+        })
 
         return data;
     }
