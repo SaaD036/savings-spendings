@@ -8,6 +8,8 @@ router.route('/')
     .get(adminMiddleware, adminController.getUser)
 
 router.route('/change-status')
+    .get(adminMiddleware, adminController.getUserRequest)
     .post(adminMiddleware, adminController.changeUserStatus)
+    .delete(adminMiddleware, adminController.deleteUserRequest)
 
 module.exports = router;

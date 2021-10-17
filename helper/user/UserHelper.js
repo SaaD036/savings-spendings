@@ -18,6 +18,7 @@ module.exports = class UserHelper {
 
         return data;
     }
+
     formatCommentForAdmin(comments) {
         let data = [];
 
@@ -37,6 +38,7 @@ module.exports = class UserHelper {
 
         return data;
     }
+
     getCommentToSave(req, dataLength) {
         return {
             id: dataLength,
@@ -45,5 +47,18 @@ module.exports = class UserHelper {
             reply: '',
             isDeleted: false
         }
+    }
+
+    formatUserStatusRequest(value) {
+        let data = [];
+
+        Object.keys(value).forEach((key) => {
+            data.push({
+                key: key,
+                email: value[key].email
+            });
+        });
+
+        return data;
     }
 }
