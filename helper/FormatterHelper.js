@@ -13,7 +13,7 @@ module.exports = class FormatterHelper {
                 date: key,
                 spendings: value[key],
                 length: value[key].length,
-                comments: token.isAdmin ? userHelper.formatCommentForAdmin(comments) : userHelper.formatComment(comments, token.email)
+                comments: token.isAdmin ? userHelper.formatCommentForAdmin(comments[key]) : userHelper.formatComment(comments[key], token.email)
             });
         });
 

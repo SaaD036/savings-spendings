@@ -13,7 +13,8 @@ const totalSavingsHelper = new TotalSavingsHelper();
 const getSavings = async(req, res) => {
     const databaseRef = database.ref('savings');
     const snapshot = await databaseRef.once('value');
-    let data = formatterHelper.getSavingsData(snapshot.val());
+    const commentSnapshot = await database.ref('comments').once('value');
+    let data = formatterHelper.getSavingsData(snapshot.val(), commentSnapshot.val(), req.token);
 
     if (req.query.name) data = spendingsHelper.searchSpendingByName(data, req.query.name);
     if (req.query.amount) data = spendingsHelper.searchSpendingByAmount(data, req.query.amount);

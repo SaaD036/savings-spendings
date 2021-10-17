@@ -2,6 +2,8 @@ module.exports = class UserHelper {
     formatComment(comments, email) {
         let data = [];
 
+        if (!comments) return data;
+
         comments.forEach((comment) => {
             if (comment != null) {
                 if (!comment.isDeleted && comment.commenter == email) {
@@ -18,6 +20,8 @@ module.exports = class UserHelper {
     }
     formatCommentForAdmin(comments) {
         let data = [];
+
+        if (!comments) return data;
 
         comments.forEach((comment) => {
             if (comment != null) {
