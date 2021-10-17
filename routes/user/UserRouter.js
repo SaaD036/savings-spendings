@@ -10,4 +10,8 @@ router.route('/')
 router.route('/comment')
     .post(userController.createComment)
 
+router.route('/change-status-request')
+    .post(userController.requestChangeStatus)
+    .delete(userController.deleteChangeStatus)
+
 module.exports = router;
