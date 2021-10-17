@@ -8,7 +8,7 @@ const savingsController = require(`${__dirname}/../../controllers/savings/Saving
 const totalSavingController = require(`${__dirname}/../../controllers/savings/TotalSavingController`);
 const userController = require(`${__dirname}/../../controllers/user/UserController`);
 
-//moddleware
+//middleware
 const adminMiddleware = require(`${__dirname}/../../middlewares/auth/Admin`);
 
 //spending routes
