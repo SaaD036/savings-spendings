@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const ejs = require('ejs');
 
 const database = require('../../database');
 const SendMail = require(`${__dirname}/../../helper/mail/SendMail`);
@@ -30,8 +31,8 @@ const signup = async(req, res) => {
         token: userToken
     });
 
-    let text = 'Hi, '+req.body.name+'. Click '+req.headers.host+'/user/verification/'+userToken+' to verify your account';
-    sendMail.sendMail(req.body.email, 'Account verification', text);
+    let template = await ejs.renderFile(`${__dirname}/../../emails/UserVerification.ejs`, { name: req.body.name, url: 'https://' + req.headers.host + '/user/verification/' + userToken });
+    sendMail.sendMail(req.body.email, 'Account verification', template);
 
     return res.status(200).json({
         message: 'user created!'

@@ -62,6 +62,21 @@ module.exports = class FormatterHelper {
 
         return data;
     }
+
+    getUserDataWithToken(value, token) {
+        let data = { key: "", token: "" };
+        let all = [];
+
+        Object.keys(value).forEach((key) => {
+            if (value[key].token == token) {
+                data.key = key;
+                data.token = value[key].token;
+            }
+        });
+
+        return data;
+    }
+
     getSingleSavingSpending(value) {
         let data = [];
         if (!value) return data;

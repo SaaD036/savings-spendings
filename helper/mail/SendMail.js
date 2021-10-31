@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 module.exports = class SendMail {
-    sendMail(toEmail, subject, text){
+    sendMail(toEmail, subject, template) {
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -14,10 +14,10 @@ module.exports = class SendMail {
             from: 'shaad036@gmail.com',
             to: toEmail,
             subject: subject,
-            text: text
+            html: template
         };
 
-        transporter.sendMail(mailOptions, function(error, info){
+        transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 return false;
             } else {
