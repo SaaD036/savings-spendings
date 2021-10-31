@@ -4,6 +4,7 @@ const DateLibrary = require('../../lib/DateLibrary');
 const FormatterHelper = require(`${__dirname}/../../helper/FormatterHelper`);
 const SpendingsHelper = require(`${__dirname}/../../helper/SpendingsHelper`);
 const TotalSavingsHelper = require(`${__dirname}/../../helper/TotalSavingsHelper`);
+const SendMail = require(`${__dirname}/../../helper/mail/SendMail`);
 
 const database = require('../../database');
 
@@ -11,6 +12,7 @@ const dateLibrary = new DateLibrary();
 const formatterHelper = new FormatterHelper();
 const spendingsHelper = new SpendingsHelper();
 const totalSavingsHelper = new TotalSavingsHelper();
+const sendMail = new SendMail();
 
 const getSpendings = async(req, res) => {
     const databaseRef = database.ref('spendings');
