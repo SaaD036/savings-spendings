@@ -80,15 +80,15 @@ const requestChangeStatus = async(req, res) => {
     let email = req.token.email;
     let key = email.split('@');
 
-    if(req.token.isAdmin){
+    if (req.token.isAdmin) {
         return res.status(403).json({
-           message: 'you are admin'
+            message: 'you are admin'
         });
     }
 
     let snapshot = await databaseRef.child(key[0]).once('value');
 
-    if(snapshot.val()){
+    if (snapshot.val()) {
         return res.status(403).json({
             message: 'You have already applied'
         });
@@ -99,7 +99,7 @@ const requestChangeStatus = async(req, res) => {
     })
 
     return res.status(200).json({
-       message: 'request sent to admin'
+        message: 'request sent to admin'
     });
 }
 
@@ -111,7 +111,24 @@ const deleteChangeStatus = async(req, res) => {
     await databaseRef.child(key[0]).remove();
 
     return res.status(200).json({
-       message: 'request removed'
+        message: 'request removed'
+    });
+}
+
+const verifyAccount = async(req, res) => {
+    const databaseRef = database.ref('user');
+    let snapshot = await databaseRef.once('value');
+
+    let data = formatterHelper.getUserDataWithToken(snapshot.val(), req.params.token);
+
+    if (data.key) {
+        await databaseRef.child(data.key).update({
+            token: ""
+        });
+    }
+
+    return res.status(200).json({
+        data: "account verified"
     });
 }
 
@@ -120,5 +137,6 @@ module.exports = {
     updateUser,
     createComment,
     requestChangeStatus,
-    deleteChangeStatus
+    deleteChangeStatus,
+    verifyAccount
 }
