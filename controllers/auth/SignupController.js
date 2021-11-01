@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const ejs = require('ejs');
+var validator = require('validator');
 
 const database = require('../../database');
 const SendMail = require(`${__dirname}/../../helper/mail/SendMail`);
@@ -7,6 +8,12 @@ const SendMail = require(`${__dirname}/../../helper/mail/SendMail`);
 const sendMail = new SendMail();
 
 const signup = async(req, res) => {
+    if (!validator.isEmail(req.body.email) || validator.isEmpty(req.body.password) || validator.isEmpty(req.body.name)) {
+        return res.status(404).json({
+            error: 'invalid email or password'
+        });
+    }
+
     let email = req.body.email;
     let key = email.split('@');
     let userToken = Math.random().toString(10).substring(2, 100);
