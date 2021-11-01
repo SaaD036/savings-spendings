@@ -9,6 +9,8 @@ router.route('/')
 
 router.route('/comment')
     .post(userController.createComment)
+    .put(userController.updateComment)
+    .delete(userController.deleteComment)
 
 router.route('/change-status-request')
     .post(userController.requestChangeStatus)
