@@ -82,6 +82,55 @@ const createComment = async(req, res) => {
     });
 }
 
+const updateComment = async(req, res) => {
+    let row = req.body.row + "";
+    if (!validator.isDate(req.body.date) || !validator.isDecimal(row.toString())) {
+        return res.status(200).json({
+            error: 'invalid data'
+        });
+    }
+
+    const databaseRef = database.ref('comments').child(req.body.date).child(req.body.row);
+    const snapshot = await databaseRef.once('value');
+    const value = snapshot.val();
+
+    if (value === null) {
+        return res.status(200).json({
+            error: 'comment not found'
+        });
+    }
+
+    if (req.token.email === value.commenter) {
+        await databaseRef.update({ comment: req.body.comment });
+        return res.status(200).json({ message: 'comment updated' });
+    }
+
+    return res.status(401).json({ error: 'invalid user' });
+}
+
+const deleteComment = async(req, res) => {
+    let row = req.body.row + "";
+    if (!validator.isDate(req.body.date) || !validator.isDecimal(row.toString())) {
+        return res.status(200).json({
+            error: 'invalid data'
+        });
+    }
+
+    const databaseRef = database.ref('comments').child(req.body.date).child(req.body.row);
+    const snapshot = await databaseRef.once('value');
+    const value = snapshot.val();
+
+    if (value !== null) {
+        if (req.token.email === value.commenter) {
+            await databaseRef.update({ isDeleted: true });
+        } else {
+            return res.status(401).json({ error: 'invalid user' });
+        }
+    }
+
+    return res.status(401).json({ error: 'comment deleted' });
+}
+
 const requestChangeStatus = async(req, res) => {
     const databaseRef = database.ref('requestChangeStatus');
     let email = req.token.email;
@@ -145,5 +194,7 @@ module.exports = {
     createComment,
     requestChangeStatus,
     deleteChangeStatus,
-    verifyAccount
+    verifyAccount,
+    updateComment,
+    deleteComment
 }
