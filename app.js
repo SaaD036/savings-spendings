@@ -9,7 +9,7 @@ const adminRouter = require(`${__dirname}/routes/admin/AdminRouter`);
 const userRouter = require(`${__dirname}/routes/user/UserRouter`);
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 dotenv.config();
