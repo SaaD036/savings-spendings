@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+var validator = require('validator');
 
 const database = require(`${__dirname}/../../database`);
 const FormatterHelper = require(`${__dirname}/../../helper/FormatterHelper`);
@@ -54,6 +55,12 @@ const updateUser = async(req, res) => {
 }
 
 const createComment = async(req, res) => {
+    if (validator.isEmpty(req.body.date) || validator.isEmpty(req.body.comment)) {
+        return res.status(200).json({
+            error: 'empty date or comment'
+        });
+    }
+
     const databaseRef = database.ref('comments');
     let snapshot = await databaseRef.child(req.body.date).once('value');
     let dataLength = formatterHelper.getLength(snapshot);

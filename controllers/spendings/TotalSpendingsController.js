@@ -1,3 +1,5 @@
+var validator = require('validator');
+
 const DateLibrary = require('../../lib/DateLibrary');
 const FormatterHelper = require(`${__dirname}/../../helper/FormatterHelper`);
 const SpendingsHelper = require(`${__dirname}/../../helper/SpendingsHelper`);
@@ -11,6 +13,12 @@ const spendingsHelper = new SpendingsHelper();
 const totalSavingsHelper = new TotalSavingsHelper();
 
 const getTotalSpendingsByID = async(req, res) => {
+    if (!validator.isDate(req.params.id)) {
+        return res.status(404).json({
+            error: 'invalid date'
+        });
+    }
+
     const totalSpendingsTable = database.ref('totalSpendings').child(req.params.id);
     const totalSpendingsSnapshot = await totalSpendingsTable.once('value');
     const totalSpendingsData = totalSpendingsSnapshot.val();

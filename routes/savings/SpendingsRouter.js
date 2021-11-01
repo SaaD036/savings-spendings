@@ -6,7 +6,6 @@ const spendingsController = require(`${__dirname}/../../controllers/spendings/Sp
 const totalSpendingController = require(`${__dirname}/../../controllers/spendings/TotalSpendingsController`);
 const savingsController = require(`${__dirname}/../../controllers/savings/SavingsController`);
 const totalSavingController = require(`${__dirname}/../../controllers/savings/TotalSavingController`);
-const userController = require(`${__dirname}/../../controllers/user/UserController`);
 
 //middleware
 const adminMiddleware = require(`${__dirname}/../../middlewares/auth/Admin`);

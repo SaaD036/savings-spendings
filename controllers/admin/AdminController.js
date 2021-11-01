@@ -1,3 +1,5 @@
+var validator = require('validator');
+
 const database = require(`${__dirname}/../../database`);
 const FormatterHelper = require(`${__dirname}/../../helper/FormatterHelper`);
 const UserHelper = require(`${__dirname}/../../helper/user/UserHelper`);
@@ -19,6 +21,12 @@ const getUser = async(req, res) => {
 }
 
 const changeUserStatus = async(req, res) => {
+    if (validator.isEmpty(req.body.key)) {
+        return res.status(200).json({
+            error: 'empty name or amount'
+        });
+    }
+
     const databaseRef = database.ref('user').child(req.body.key);
     const snapShot = await databaseRef.once('value');
     const value = snapShot.val();
@@ -26,7 +34,7 @@ const changeUserStatus = async(req, res) => {
     const requestSnapshot = await database.ref('requestChangeStatus').child(req.body.key).once('value');
     const requestValue = requestSnapshot.val();
 
-    if(!requestValue){
+    if (!requestValue) {
         return res.status(404).json({
             message: 'user not found'
         });

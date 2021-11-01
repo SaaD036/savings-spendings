@@ -1,9 +1,16 @@
 const bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+var validator = require('validator');
 
 const database = require('../../database');
 
 const login = async(req, res) => {
+    if (!validator.isEmail(req.body.email) || validator.isEmpty(req.body.password)) {
+        return res.status(404).json({
+            error: 'invalid email or password'
+        });
+    }
+
     let email = req.body.email;
     let key = email.split('@');
 
