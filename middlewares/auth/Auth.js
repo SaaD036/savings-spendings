@@ -20,9 +20,9 @@ const auth = (req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        if (decoded.token != null) {
+        if (decoded.token !== "") {
             return res.status(401).json({
-                message: 'you are unauthenticated'
+                message: 'you are unauthenticated!!'
             });
         }
 

@@ -52,6 +52,8 @@ module.exports = class UserHelper {
     formatUserStatusRequest(value) {
         let data = [];
 
+        if (value == null) return data;
+
         Object.keys(value).forEach((key) => {
             data.push({
                 key: key,

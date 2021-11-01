@@ -39,7 +39,7 @@ const updateUser = async(req, res) => {
         })
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = req.body.password ? await bcrypt.hash(req.body.password, 10) : value.password;
 
     await databaseRef.child(key[0]).update({
         email: email,
